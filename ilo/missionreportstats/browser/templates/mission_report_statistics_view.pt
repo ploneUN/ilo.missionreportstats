@@ -10,7 +10,7 @@
 <metal:main fill-slot="content-core">
   <metal:content-core define-macro="content-core">
 
-      <div tal:condition="python: len(view.by_offices()) > 1">
+      <div tal:condition="python: len(view.by_offices()) ">
           <h3>Offices</h3>
           <ul>
               <li tal:repeat="item view/by_offices">
@@ -19,7 +19,7 @@
           </ul>
       </div>
 
-      <div tal:condition="python: len(view.by_themes()) > 1">
+      <div tal:condition="python: len(view.by_themes()) ">
           <h3>Themes</h3>
           <ul>
               <li tal:repeat="item view/by_themes">
@@ -28,7 +28,7 @@
           </ul>
       </div>
 
-      <div tal:condition="python: len(view.by_destination()) > 1">
+      <div tal:condition="python: len(view.by_destination()) ">
           <h3>Destination</h3>
           <ul>
               <li tal:repeat="item view/by_destination">
