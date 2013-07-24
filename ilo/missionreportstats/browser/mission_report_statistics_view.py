@@ -1,9 +1,11 @@
 from five import grok
 from plone.directives import dexterity, form
 from ilo.missionreportstats.content.mission_report_statistics import IMissionReportStatistics
+from datetime import datetime
 from ilo.missionreportstats.interfaces import IStatsCache
 import Missing
 grok.templatedir('templates')
+
 
 class Index(dexterity.DisplayForm):
     grok.context(IMissionReportStatistics)
@@ -15,15 +17,23 @@ class Index(dexterity.DisplayForm):
         if self.request.get('force_cache_update', None):
             IStatsCache(self.context).update()
 
-    def _get_cache(self, key):
-        return IStatsCache(self.context).get(key)
+    def _get_cache(self, key, year=None):
+        if year is None:
+            return IStatsCache(self.context).get(key)
+        return IStatsCache(self.context).get('years')[year].get(key)
 
-    def by_offices(self):
-        return self._get_cache('office')
+    def by_offices(self, year=None):
+        return self._get_cache('office', year)
 
-    def by_themes(self):
-        return self._get_cache('theme')
+    def by_themes(self, year=None):
+        return self._get_cache('theme', year)
 
-    def by_destination(self):
-        return self._get_cache('mission_location')
+    def by_destination(self, year=None):
+        return self._get_cache('mission_location', year)
+
+    def by_creator(self, year=None):
+        return self._get_cache('creator', year)
+
+    def years(self):
+        return [None] + range(2010, datetime.now().year + 1)
 

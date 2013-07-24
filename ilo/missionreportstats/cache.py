@@ -8,6 +8,8 @@ from zope.annotation.interfaces import IAnnotations
 from persistent.dict import PersistentDict
 from operator import itemgetter
 from heapq import nlargest
+from DateTime import DateTime
+from datetime import datetime
 
 
 def mostcommon(iterable,n=None):
@@ -44,19 +46,44 @@ class StatsCache(grok.Adapter):
         cache['office'] = self._top_items_by_index('office')
         cache['theme'] = self._top_items_by_index('theme')
         cache['mission_location'] = self._top_items_by_index('mission_location')
+        cache['creator'] = self._top_items_by_index('Creator')
+        cache['years'] = {}
+        for year in range(2010, datetime.now().year + 1):
+            yearcache = {}
+            yearcache['office'] = self._top_items_by_index('office', year)
+            yearcache['theme'] = self._top_items_by_index('theme', year)
+            yearcache['mission_location'] = self._top_items_by_index(
+                    'mission_location', year)
+            yearcache['creator'] = self._top_items_by_index(
+                    'Creator', year)
+            cache['years'][year] = yearcache
 
-    def _top_items_by_index(self, index):
+
+    def _top_items_by_index(self, index, year=None):
         result = []
-        for i in mostcommon(self._items(index)):
+        items = self._items(index, year)
+        total = len(items)
+        for i in mostcommon(items):
             result.append({'elem':i[0],'count':i[1]})
-        return result
+        return {
+            'stats': result,
+            'total': total
+        }
 
-    def _items(self, attr):
+    def _items(self, attr, year=None):
         query = {
             'portal_type':  'MissionReport',
             'office': self.context.offices or []
         }
 
+        if year is not None:
+            query['effective'] = {
+                'query': (
+                    DateTime('%s-01-01 00:00:00' % year),
+                    DateTime('%s-12-31 23:59:59' % year)
+                ), 
+                'range': 'min:max'
+            }
         result = []
         for item in self.context.portal_catalog(query):
             val = getattr(item, attr, None)

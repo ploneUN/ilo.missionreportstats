@@ -8,34 +8,54 @@
     <body>
         <metal:main fill-slot="content-core">
             <metal:content-core define-macro="content-core">
-                <table>
-                    <tr>
+
+                <tal:r repeat="year view/years">
+
+                <h2 tal:condition='not:year'
+                    class="kuputab-tab-definer-default">Current</h2>
+                <h2 tal:condition='year'
+                    tal:content="year"
+                    class="kuputab-tab-definer"></h2>
+                <table style="width:100%">
+                    <tr tal:define="by_offices python:view.by_offices(year);
+                                    by_themes python:view.by_themes(year);
+                                    by_destination python:view.by_destination(year);
+                                    by_creator python:view.by_creator(year)">
                         <td tal:condition="python: context.offices and len(context.offices) > 1">
                             <h3>Offices</h3>
                             <ul>
-                                <li tal:repeat="item view/by_offices">
+                                <li tal:repeat="item by_offices/stats">
                                     <span tal:content="item/elem"></span> (<span tal:content="item/count"></span>)
                                 </li>
                             </ul>
                         </td>
-                        <td tal:condition="python: len(view.by_themes()) ">
+                        <td tal:condition="by_themes/stats">
                             <h3>Themes</h3>
                             <ul>
-                                <li tal:repeat="item view/by_themes">
+                                <li tal:repeat="item by_themes/stats">
                                     <span tal:content="item/elem"></span> (<span tal:content="item/count"></span>)
                                 </li>
                             </ul>
                         </td>
-                        <td tal:condition="python: len(view.by_destination()) ">
+                        <td tal:condition="by_destination/stats">
                             <h3>Destination</h3>
                             <ul>
-                                <li tal:repeat="item view/by_destination">
+                                <li tal:repeat="item by_destination/stats">
+                                    <span tal:content="item/elem"></span> (<span tal:content="item/count"></span>)
+                                </li>
+                            </ul>
+                        </td>
+                        <td tal:condition="by_creator/stats">
+                            <h3>Creator</h3>
+                            <ul>
+                                <li tal:repeat="item by_creator/stats">
                                     <span tal:content="item/elem"></span> (<span tal:content="item/count"></span>)
                                 </li>
                             </ul>
                         </td>
                     </tr>
                 </table>
+                </tal:r>
             </metal:content-core>
         </metal:main>
     </body>
