@@ -5,6 +5,17 @@
     lang="en"
     metal:use-macro="context/main_template/macros/master"
     i18n:domain="ilo.missionreportstats">
+
+    <head>
+        <metal:block fill-slot="style_slot">
+            <style>
+                .stats-total {
+                font-size:120%;
+                font-weight:bold;
+                }
+            </style>
+        </metal:block>
+    </head>
     <body>
         <metal:main fill-slot="content-core">
             <metal:content-core define-macro="content-core">
