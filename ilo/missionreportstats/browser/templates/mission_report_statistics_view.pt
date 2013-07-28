@@ -27,6 +27,7 @@
                                 <li tal:repeat="item by_offices/stats">
                                     <span tal:content="item/elem"></span> (<span tal:content="item/count"></span>)
                                 </li>
+                                <li class="stats-total">Total: <span tal:content="by_offices/total"></span></li>
                             </ul>
                         </td>
                         <td tal:condition="by_themes/stats">
@@ -35,6 +36,7 @@
                                 <li tal:repeat="item by_themes/stats">
                                     <span tal:content="item/elem"></span> (<span tal:content="item/count"></span>)
                                 </li>
+                                <li class="stats-total">Total: <span tal:content="by_themes/total"></span></li>
                             </ul>
                         </td>
                         <td tal:condition="by_destination/stats">
@@ -43,6 +45,7 @@
                                 <li tal:repeat="item by_destination/stats">
                                     <span tal:content="item/elem"></span> (<span tal:content="item/count"></span>)
                                 </li>
+                                <li class="stats-total">Total: <span tal:content="by_destination/total"></span></li>
                             </ul>
                         </td>
                         <td tal:condition="by_creator/stats">
@@ -51,6 +54,7 @@
                                 <li tal:repeat="item by_creator/stats">
                                     <span tal:content="item/elem"></span> (<span tal:content="item/count"></span>)
                                 </li>
+                                <li class="stats-total">Total: <span tal:content="by_creator/total"></span></li>
                             </ul>
                         </td>
                     </tr>
