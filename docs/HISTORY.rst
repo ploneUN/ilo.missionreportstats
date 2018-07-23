@@ -1,10 +1,10 @@
 Changelog
 =========
 
-1.3 (unreleased)
+1.2.1 (2018-07-23)
 ----------------
 
-- Nothing changed yet.
+- Fix key error on year.
 
 
 1.2 (2013-07-29)
