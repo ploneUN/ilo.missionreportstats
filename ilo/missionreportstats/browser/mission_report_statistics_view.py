@@ -20,7 +20,7 @@ class Index(dexterity.DisplayForm):
     def _get_cache(self, key, year=None):
         if year is None:
             return IStatsCache(self.context).get(key)
-        return IStatsCache(self.context).get('years')[year].get(key)
+        return IStatsCache(self.context).get('years')[year].get(key) if year in IStatsCache(self.context).get('years') else IStatsCache(self.context).get(key)
 
     def by_offices(self, year=None):
         return self._get_cache('office', year)
